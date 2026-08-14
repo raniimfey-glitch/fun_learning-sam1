@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Sparkles, Moon, Sun, User, Trophy, Bot, Menu, ChevronDown, Check, Sunset, BookOpen, Info } from "lucide-react";
+import { Moon, Sun, User, Trophy, Bot, Menu, ChevronDown, Check, BookOpen, Star } from "lucide-react";
 import { UserProfile } from "../types";
 
 interface HeaderProps {
@@ -77,36 +77,6 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Header Right Actions */}
         <div className="flex items-center gap-2">
-          {/* Quick Manual Theme Toggle Button */}
-          <button
-            onClick={onToggleDark}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white text-xs font-semibold backdrop-blur-sm transition-all shadow-sm active:scale-95 cursor-pointer"
-            title={isDark ? "التَّبديل إلى الوضع النَّهاريّ (يدوي)" : "التَّبديل إلى الوضع اللَّيليّ (يدوي)"}
-            aria-label="تبديل الوضع الليلي والنهاري يدوياً"
-          >
-            {isDark ? (
-              <>
-                <Sun className="w-4 h-4 text-amber-300" />
-                <span className="hidden md:inline">الوضع النّهاري</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-4 h-4 text-indigo-100" />
-                <span className="hidden md:inline">الوضع اللّيلي</span>
-              </>
-            )}
-          </button>
-
-          {/* AI Assistant Button */}
-          <button
-            onClick={onOpenAiTutor}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white text-xs font-semibold backdrop-blur-sm transition-all shadow-sm active:scale-95"
-            title="مساعد التَّعلُّم الذَّكيّ"
-          >
-            <Bot className="w-4 h-4 text-amber-200" />
-            <span className="hidden sm:inline">المساعد الذَّكيّ</span>
-          </button>
-
           {/* User Auth Button */}
           <button
             onClick={onOpenAuth}
@@ -160,10 +130,12 @@ export const Header: React.FC<HeaderProps> = ({
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className="w-full flex items-center gap-2 p-2.5 mb-2 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/50 dark:to-teal-950/40 hover:from-emerald-100 hover:to-teal-100 border border-emerald-200 dark:border-emerald-800/80 transition-all text-xs font-bold text-[#1aab8a] dark:text-emerald-300 shadow-2xs"
+                  className="w-full flex items-center gap-2.5 p-2.5 mb-2 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/50 dark:to-teal-950/40 hover:from-emerald-100 hover:to-teal-100 border border-emerald-200 dark:border-emerald-800/80 transition-all text-xs font-bold text-[#1aab8a] dark:text-emerald-300 shadow-2xs cursor-pointer"
                 >
-                  <Info className="w-4 h-4 text-[#1aab8a] dark:text-emerald-400 shrink-0" />
-                  <span>عن المَشْروعِ ✦</span>
+                  <div className="w-5 h-5 rounded-md bg-[#1aab8a]/15 dark:bg-emerald-400/20 border border-[#1aab8a]/40 dark:border-emerald-400/40 flex items-center justify-center shrink-0">
+                    <Star className="w-3.5 h-3.5 fill-[#1aab8a] text-[#1aab8a] dark:fill-emerald-400 dark:text-emerald-400" />
+                  </div>
+                  <span>عن المَشْروعِ</span>
                 </button>
 
                 {/* Item 2: Reading Mode (وضعية القراءة) */}
@@ -199,7 +171,7 @@ export const Header: React.FC<HeaderProps> = ({
                       >
                         <div className="flex items-center gap-2">
                           <Moon className="w-4 h-4 text-indigo-500" />
-                          <span>الوضع اللّيليّ 🌙</span>
+                          <span>الوضع اللّيليّ</span>
                         </div>
                         {isDark && <Check className="w-3.5 h-3.5 text-[#1aab8a]" />}
                       </button>
@@ -217,7 +189,7 @@ export const Header: React.FC<HeaderProps> = ({
                       >
                         <div className="flex items-center gap-2">
                           <Sun className="w-4 h-4 text-amber-500" />
-                          <span>الوضع النّهاريّ ☀️</span>
+                          <span>الوضع النّهاريّ</span>
                         </div>
                         {!isDark && <Check className="w-3.5 h-3.5 text-[#1aab8a]" />}
                       </button>

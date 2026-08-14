@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Sparkles, UserCheck, Target, GraduationCap, Share2, Check, Copy } from "lucide-react";
+import { X, Sparkles, UserCheck, Target, GraduationCap, Share2, Check, Copy, Download, Image as ImageIcon } from "lucide-react";
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -8,6 +8,7 @@ interface AboutModalProps {
 
 export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
+  const [activeGraphicTab, setActiveGraphicTab] = useState<"og" | "infographic">("og");
 
   if (!isOpen) return null;
 
@@ -71,54 +72,99 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         {/* Modal Body / Scrollable Content */}
         <div className="p-6 overflow-y-auto space-y-6 text-right text-slate-800 dark:text-slate-100">
           
-          {/* Visual Platform Identity Banner */}
-          <div className="overflow-hidden rounded-2xl border border-emerald-200 dark:border-slate-700 shadow-md">
-            <img
-              src="/og-image.jpg"
-              alt="بطاقة منصة التعلم الممتع - رنيم فاي"
-              className="w-full h-auto object-cover max-h-56"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-
-          {/* Social Share Box */}
+          {/* Visual Platform Graphics & Open Graph Section */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-[#1aab8a] dark:text-emerald-300 font-bold text-sm">
-                <Share2 className="w-4 h-4" />
-                <span>مشاركة رابط المنصة على وسائل التواصل الاجتماعي:</span>
+                <ImageIcon className="w-4 h-4" />
+                <span>صورة المنصة لوسائل التواصل (Open Graph / إنفوغرافيك):</span>
+              </div>
+
+              {/* Graphic Selector Tabs */}
+              <div className="flex items-center gap-1 bg-slate-200 dark:bg-slate-700/80 p-1 rounded-xl text-xs font-bold">
+                <button
+                  onClick={() => setActiveGraphicTab("og")}
+                  className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                    activeGraphicTab === "og"
+                      ? "bg-white dark:bg-emerald-600 text-[#1aab8a] dark:text-white shadow-xs"
+                      : "text-slate-600 dark:text-slate-300 hover:text-slate-900"
+                  }`}
+                >
+                  بطاقة أوبن غرافيك (16:9)
+                </button>
+                <button
+                  onClick={() => setActiveGraphicTab("infographic")}
+                  className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                    activeGraphicTab === "infographic"
+                      ? "bg-white dark:bg-emerald-600 text-[#1aab8a] dark:text-white shadow-xs"
+                      : "text-slate-600 dark:text-slate-300 hover:text-slate-900"
+                  }`}
+                >
+                  بوستر إنفوغرافيك (1:1)
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
-              <button
-                onClick={handleShareFacebook}
-                className="px-3.5 py-1.5 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                <span>فيسبوك</span>
-              </button>
+            {/* Displayed Graphic Preview */}
+            <div className="relative group overflow-hidden rounded-2xl border border-emerald-200 dark:border-slate-700 shadow-md bg-slate-100 dark:bg-slate-950 flex items-center justify-center">
+              <img
+                src={activeGraphicTab === "og" ? "/og-image.jpg" : "/infographic.jpg"}
+                alt={activeGraphicTab === "og" ? "بطاقة أوبن غرافيك - رنيم فاي" : "إنفوغرافيك منصة رنيم فاي"}
+                className={`w-full object-cover transition-transform duration-300 group-hover:scale-101 ${
+                  activeGraphicTab === "og" ? "max-h-60" : "max-h-80 object-contain"
+                }`}
+                referrerPolicy="no-referrer"
+              />
 
-              <button
-                onClick={handleShareTwitter}
-                className="px-3.5 py-1.5 rounded-xl bg-[#000000] hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer"
+              <a
+                href={activeGraphicTab === "og" ? "/og-image.jpg" : "/infographic.jpg"}
+                download={activeGraphicTab === "og" ? "ranimfay-open-graph.jpg" : "ranimfay-infographic.jpg"}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-bold backdrop-blur-sm transition-all flex items-center gap-1.5 shadow-md active:scale-95"
               >
-                <span>تويتر / X</span>
-              </button>
+                <Download className="w-3.5 h-3.5 text-amber-300" />
+                <span>تحميل الصورة عالية الدقة</span>
+              </a>
+            </div>
 
-              <button
-                onClick={handleShareWhatsApp}
-                className="px-3.5 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                <span>واتساب</span>
-              </button>
+            {/* Social Share Buttons */}
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-700/60 flex items-center gap-2 flex-wrap justify-between">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1">
+                <Share2 className="w-3.5 h-3.5" />
+                <span>مشاركة الرابط مع الصورة:</span>
+              </div>
 
-              <button
-                onClick={handleCopyLink}
-                className="px-3.5 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? "تمَّ النَّسخ!" : "نسخ الرَّابط"}</span>
-              </button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={handleShareFacebook}
+                  className="px-3 py-1.5 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 active:scale-95 cursor-pointer"
+                >
+                  <span>فيسبوك</span>
+                </button>
+
+                <button
+                  onClick={handleShareTwitter}
+                  className="px-3 py-1.5 rounded-xl bg-[#000000] hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 active:scale-95 cursor-pointer"
+                >
+                  <span>تويتر / X</span>
+                </button>
+
+                <button
+                  onClick={handleShareWhatsApp}
+                  className="px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 active:scale-95 cursor-pointer"
+                >
+                  <span>واتساب</span>
+                </button>
+
+                <button
+                  onClick={handleCopyLink}
+                  className="px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 text-xs font-bold transition-all shadow-xs flex items-center gap-1 active:scale-95 cursor-pointer"
+                >
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copied ? "تمَّ النَّسخ!" : "نسخ الرَّابط"}</span>
+                </button>
+              </div>
             </div>
           </div>
 
