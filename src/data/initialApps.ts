@@ -220,6 +220,36 @@ export const DEFAULT_APPS: AppItem[] = [
     icon: "🔤",
     paid: false,
     paidPass: ""
+  },
+  {
+    name: "تعلم وحدات السعة",
+    desc: "تطبيق تفاعلي لتعلم وحدات قياس السعة (اللتر والميليتر) والتحويل بينها مع تمارين وأنشطة تطبيقية.",
+    url: "https://measuring-liquid-capacity.vercel.app/",
+    cat: "الرياضيات",
+    age: "الصف 3–5",
+    icon: "🧪",
+    paid: false,
+    paidPass: ""
+  },
+  {
+    name: "عالم الأعداد الكبيرة",
+    desc: "رحلة تفاعلية في عالم الأعداد الكبيرة والمنازل وجدول المراتب والقراءة والمقارنة.",
+    url: "https://fun-learning-the-big-nembers.vercel.app/",
+    cat: "الرياضيات",
+    age: "الصف 4–5",
+    icon: "🔢",
+    paid: false,
+    paidPass: ""
+  },
+  {
+    name: "الكسور والأعداد العشرية",
+    desc: "تطبيق تعليمي تفاعلي ممتع لتعلم الكسور والأعداد العشرية والتحويلات والعمليات الحسابية.",
+    url: "https://bookish-happiness-hahg.vercel.app/",
+    cat: "الرياضيات",
+    age: "الصف 4–5",
+    icon: "➗",
+    paid: false,
+    paidPass: ""
   }
 ];
 
