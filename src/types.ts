@@ -42,3 +42,5 @@ export interface CategoryColor {
   bg: string;
   color: string;
 }
+
+export type ViewportMode = "full" | "tablet" | "mobile";

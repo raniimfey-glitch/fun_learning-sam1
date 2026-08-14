@@ -14,7 +14,7 @@ import { AiTutorModal } from "./components/AiTutorModal";
 import { AboutModal } from "./components/AboutModal";
 import { Toast } from "./components/Toast";
 
-import { AppItem, ReviewItem, UserProfile } from "./types";
+import { AppItem, ReviewItem, UserProfile, ViewportMode } from "./types";
 import {
   getStoredApps,
   saveStoredApps,
@@ -36,6 +36,9 @@ import {
 import { BADGES_LIST, normalizeCategory } from "./data/initialApps";
 
 export default function App() {
+  // Viewport Mode State (Responsive Viewport Selector)
+  const [viewportMode, setViewportMode] = useState<ViewportMode>("full");
+
   // Manual Theme State (Strictly manual toggle saved in localStorage)
   const [isDark, setIsDark] = useState<boolean>(() => {
     return localStorage.getItem("ranimfay_dark") === "1";
@@ -316,22 +319,52 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f2f8f6] dark:bg-[#12141f] text-[#1a2230] dark:text-[#e8eaf2] transition-colors duration-300 flex flex-col font-cairo">
-      {/* Top Header */}
-      <Header
-        user={user}
-        isDark={isDark}
-        onToggleDark={handleToggleDark}
-        onOpenAuth={() => setIsAuthOpen(true)}
-        onOpenJourney={() => setIsJourneyOpen(true)}
-        onOpenAdmin={() => setIsAdminOpen(true)}
-        onOpenAiTutor={() => setIsAiTutorOpen(true)}
-        onOpenAbout={() => setIsAboutOpen(true)}
-        onGoHome={handleGoHome}
-      />
+    <div className={`min-h-screen transition-colors duration-300 flex flex-col font-cairo ${
+      viewportMode !== "full" ? "bg-slate-200/90 dark:bg-slate-950/90 p-0 sm:p-4 items-center" : "bg-[#f2f8f6] dark:bg-[#12141f]"
+    }`}>
+      {/* Active Viewport Mode Top Notification Ribbon */}
+      {viewportMode !== "full" && (
+        <div className="w-full max-w-5xl mb-2 px-3 py-1.5 rounded-xl bg-slate-900 text-slate-100 text-xs flex items-center justify-between font-bold shadow-md border border-slate-800 animate-fade-in">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-amber-300">
+              معاينة حجم {viewportMode === "mobile" ? "الهاتف" : "الجهاز اللوحي"}
+            </span>
+          </div>
+          <button
+            onClick={() => setViewportMode("full")}
+            className="px-2.5 py-0.5 rounded-lg bg-white/15 hover:bg-white/25 text-white text-[11px] font-semibold transition-all cursor-pointer"
+          >
+            استعادة الحجم الكامل ✕
+          </button>
+        </div>
+      )}
 
-      {/* Main Container */}
-      <main className="flex-1">
+      {/* Main App Frame / Container */}
+      <div className={`w-full flex-1 flex flex-col transition-all duration-300 ${
+        viewportMode === "mobile"
+          ? "max-w-[414px] bg-[#f2f8f6] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
+          : viewportMode === "tablet"
+          ? "max-w-[820px] bg-[#f2f8f6] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
+          : "min-h-screen text-[#1a2230] dark:text-[#e8eaf2]"
+      }`}>
+        {/* Top Header */}
+        <Header
+          user={user}
+          isDark={isDark}
+          onToggleDark={handleToggleDark}
+          onOpenAuth={() => setIsAuthOpen(true)}
+          onOpenJourney={() => setIsJourneyOpen(true)}
+          onOpenAdmin={() => setIsAdminOpen(true)}
+          onOpenAiTutor={() => setIsAiTutorOpen(true)}
+          onOpenAbout={() => setIsAboutOpen(true)}
+          onGoHome={handleGoHome}
+          viewportMode={viewportMode}
+          onViewportChange={setViewportMode}
+        />
+
+        {/* Main Container */}
+        <main className="flex-1">
         {currentView === "home" ? (
           /* ==================== VIEW 1: الواجهة الرئيسية ==================== */
           <div className="animate-fade-in space-y-4">
@@ -430,6 +463,7 @@ export default function App() {
           جميع الحقوق محفوظة 2026(c)
         </div>
       </footer>
+      </div>
 
       {/* Modals */}
       {(() => {

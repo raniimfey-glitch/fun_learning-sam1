@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Moon, Sun, User, Trophy, Bot, Menu, ChevronDown, Check, BookOpen, Star } from "lucide-react";
-import { UserProfile } from "../types";
+import { Moon, Sun, User, Trophy, Bot, Menu, ChevronDown, Check, BookOpen, Star, Smartphone, Tablet, Monitor } from "lucide-react";
+import { UserProfile, ViewportMode } from "../types";
 
 interface HeaderProps {
   user: UserProfile;
@@ -12,6 +12,8 @@ interface HeaderProps {
   onOpenAiTutor: () => void;
   onOpenAbout?: () => void;
   onGoHome?: () => void;
+  viewportMode?: ViewportMode;
+  onViewportChange?: (mode: ViewportMode) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -24,11 +26,15 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAiTutor,
   onOpenAbout,
   onGoHome,
+  viewportMode = "full",
+  onViewportChange,
 }) => {
   const [tapCount, setTapCount] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+  const [showViewportMenu, setShowViewportMenu] = useState(false);
   const [showReadingSubmenu, setShowReadingSubmenu] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
   const handleLogoClick = () => {
     if (onGoHome) {
@@ -44,11 +50,15 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  // Close menu on outside click
+  // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (menuRef.current && !menuRef.current.contains(target)) {
         setShowMenu(false);
+      }
+      if (viewportRef.current && !viewportRef.current.contains(target)) {
+        setShowViewportMenu(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -77,6 +87,121 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Header Right Actions */}
         <div className="flex items-center gap-2">
+          {/* Single Button Responsive Viewport Selector (أداة معاينة حجم الشاشة) */}
+          <div className="relative" ref={viewportRef}>
+            <button
+              onClick={() => setShowViewportMenu(!showViewportMenu)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-black/20 hover:bg-black/30 dark:bg-black/40 dark:hover:bg-black/50 border border-white/25 text-white text-xs font-bold backdrop-blur-sm transition-all shadow-xs active:scale-95 cursor-pointer"
+              title="معاينة حجم الشاشة (Responsive Viewport)"
+              aria-label="معاينة حجم الشاشة"
+              aria-expanded={showViewportMenu}
+            >
+              {viewportMode === "mobile" ? (
+                <Smartphone className="w-3.5 h-3.5 text-amber-300" />
+              ) : viewportMode === "tablet" ? (
+                <Tablet className="w-3.5 h-3.5 text-amber-300" />
+              ) : (
+                <Monitor className="w-3.5 h-3.5 text-white" />
+              )}
+              <span className="text-[11px] hidden sm:inline">
+                {viewportMode === "mobile"
+                  ? "الهاتف"
+                  : viewportMode === "tablet"
+                  ? "اللوحي"
+                  : "الحجم الحالي"}
+              </span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-white/80 transition-transform duration-200 ${
+                  showViewportMenu ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {/* Viewport Dropdown Menu */}
+            {showViewportMenu && (
+              <div className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-48 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-2 z-50 text-right animate-fade-in font-tajawal text-slate-800 dark:text-slate-100">
+                <div className="px-2 py-1 mb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-700/60">
+                  <span>معاينة حجم الشاشة:</span>
+                </div>
+
+                {/* Option 1: Current Screen Size */}
+                <button
+                  onClick={() => {
+                    onViewportChange?.("full");
+                    setShowViewportMenu(false);
+                  }}
+                  className={`w-full flex items-center justify-between p-2 rounded-xl transition-all text-xs cursor-pointer ${
+                    viewportMode === "full"
+                      ? "bg-emerald-50 dark:bg-emerald-950/60 text-[#1aab8a] dark:text-emerald-300 font-bold border border-emerald-200/80 dark:border-emerald-800/80"
+                      : "hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                      viewportMode === "full"
+                        ? "bg-[#1aab8a] text-white"
+                        : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                    }`}>
+                      <Monitor className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-bold">الحجم الحالي</span>
+                  </div>
+                  {viewportMode === "full" && <Check className="w-4 h-4 text-[#1aab8a] dark:text-emerald-400" />}
+                </button>
+
+                {/* Option 2: Tablet View */}
+                <button
+                  onClick={() => {
+                    onViewportChange?.("tablet");
+                    setShowViewportMenu(false);
+                  }}
+                  className={`w-full flex items-center justify-between p-2 mt-1 rounded-xl transition-all text-xs cursor-pointer ${
+                    viewportMode === "tablet"
+                      ? "bg-emerald-50 dark:bg-emerald-950/60 text-[#1aab8a] dark:text-emerald-300 font-bold border border-emerald-200/80 dark:border-emerald-800/80"
+                      : "hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                      viewportMode === "tablet"
+                        ? "bg-[#1aab8a] text-white"
+                        : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                    }`}>
+                      <Tablet className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-bold">حجم الجهاز اللوحي</span>
+                  </div>
+                  {viewportMode === "tablet" && <Check className="w-4 h-4 text-[#1aab8a] dark:text-emerald-400" />}
+                </button>
+
+                {/* Option 3: Mobile View */}
+                <button
+                  onClick={() => {
+                    onViewportChange?.("mobile");
+                    setShowViewportMenu(false);
+                  }}
+                  className={`w-full flex items-center justify-between p-2 mt-1 rounded-xl transition-all text-xs cursor-pointer ${
+                    viewportMode === "mobile"
+                      ? "bg-emerald-50 dark:bg-emerald-950/60 text-[#1aab8a] dark:text-emerald-300 font-bold border border-emerald-200/80 dark:border-emerald-800/80"
+                      : "hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                      viewportMode === "mobile"
+                        ? "bg-[#1aab8a] text-white"
+                        : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                    }`}>
+                      <Smartphone className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-bold">حجم الهاتف</span>
+                  </div>
+                  {viewportMode === "mobile" && <Check className="w-4 h-4 text-[#1aab8a] dark:text-emerald-400" />}
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* User Auth Button */}
           <button
             onClick={onOpenAuth}

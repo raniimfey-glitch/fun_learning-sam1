@@ -74,7 +74,7 @@ export const DEFAULT_APPS: AppItem[] = [
   {
     name: "الجهاز الهضمي",
     desc: "استكشف أجزاء الجهاز الهضمي ووظائفه بطريقة تفاعلية مع رسوم توضيحية وأسئلة.",
-    url: "https://congenial-journey-indol.vercel.app/",
+    url: "https://fun-learning-digestive-system.vercel.app/",
     cat: "العلوم والتكنولوجيا",
     age: "الصف 4–5",
     icon: "🫀",
