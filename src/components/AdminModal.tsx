@@ -32,6 +32,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [passwordInput, setPasswordInput] = useState("");
   const [passError, setPassError] = useState(false);
 
+  // Reset password field and errors whenever modal opens
+  React.useEffect(() => {
+    if (isOpen) {
+      setPasswordInput("");
+      setPassError(false);
+    }
+  }, [isOpen]);
+
   const [activeTab, setActiveTab] = useState<"list" | "form" | "cats" | "backup">("list");
   const [editIndex, setEditIndex] = useState(-1);
 
@@ -144,13 +152,13 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               🔒
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-300">
-              أدخل كلمة السر الخاصة بالإدارة للوصول لإعدادات المنصة
+              أدخل كلمة المرور الخاصة بالإدارة للوصول لإعدادات المنصة
             </p>
             <input
               type="password"
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
-              placeholder="كلمة السر (رنيم2026)"
+              placeholder="أدخل كلمة المرور..."
               className="w-full px-4 py-2.5 text-center text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#1aab8a]"
               autoFocus
             />

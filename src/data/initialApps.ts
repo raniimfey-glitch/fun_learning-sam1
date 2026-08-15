@@ -280,6 +280,36 @@ export const DEFAULT_APPS: AppItem[] = [
     icon: "📖",
     paid: false,
     paidPass: ""
+  },
+  {
+    name: "مطابقة الكلمات — قواعد ونحو",
+    desc: "لعبة تفاعلية ممتعة لمطابقة الكلمات وتمييز قواعد النحو وأقسام الكلام والوظائف الإعرابية.",
+    url: "https://fun-learning-maching-word-nahw.vercel.app/",
+    cat: "اللغة العربية",
+    age: "الصف 3–5",
+    icon: "🧩",
+    paid: false,
+    paidPass: ""
+  },
+  {
+    name: "مغامرة التاء (المربوطة والمفتوحة)",
+    desc: "مغامرة تعليمية تفاعلية مشوقة للتمييز بين التاء المربوطة والتاء المفتوحة وقواعد كتابتها.",
+    url: "https://fun-learning-adventure-of-taa.vercel.app/",
+    cat: "اللغة العربية",
+    age: "الصف 2–4",
+    icon: "🎀",
+    paid: false,
+    paidPass: ""
+  },
+  {
+    name: "القياس التفاعلي ووحدات القياس",
+    desc: "تطبيق تفاعلي شيق لتعلم وحدات وأدوات القياس والتدرجات والتحويلات الحسابية بأسلوب عملي ممتع.",
+    url: "https://fun-learning-interactive-measuring.vercel.app/",
+    cat: "الرياضيات",
+    age: "الصف 3–5",
+    icon: "📏",
+    paid: false,
+    paidPass: ""
   }
 ];
 

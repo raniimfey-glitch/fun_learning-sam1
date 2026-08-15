@@ -36,17 +36,31 @@ export const Header: React.FC<HeaderProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
 
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleLogoClick = () => {
     if (onGoHome) {
       onGoHome();
     }
-    const newCount = tapCount + 1;
-    if (newCount >= 5) {
+    
+    // Clear any previous timer reset
+    if (tapTimerRef.current) {
+      clearTimeout(tapTimerRef.current);
+    }
+
+    tapCountRef.current += 1;
+    if (tapCountRef.current >= 5) {
+      tapCountRef.current = 0;
       setTapCount(0);
       onOpenAdmin();
     } else {
-      setTapCount(newCount);
-      setTimeout(() => setTapCount(0), 2000);
+      setTapCount(tapCountRef.current);
+      // Give the user 2.5 seconds between rapid taps
+      tapTimerRef.current = setTimeout(() => {
+        tapCountRef.current = 0;
+        setTapCount(0);
+      }, 2500);
     }
   };
 
