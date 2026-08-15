@@ -18,9 +18,17 @@ export const getStoredApps = (): AppItem[] => {
     const data = localStorage.getItem(KEYS.APPS);
     if (!data) return DEFAULT_APPS;
     let stored: AppItem[] = JSON.parse(data);
+    let updated = false;
+
+    // Remove specific deprecated/deleted apps
+    const removedUrls = new Set(["https://literate-goggles-rho.vercel.app/"]);
+    const beforeCount = stored.length;
+    stored = stored.filter((app) => !removedUrls.has(app.url) && !app.name.includes("النَّجمة الصَّغيرة تتعلَّم الحروف"));
+    if (stored.length !== beforeCount) {
+      updated = true;
+    }
 
     // Sync URLs for default apps if they changed in DEFAULT_APPS
-    let updated = false;
     stored = stored.map((app) => {
       const defaultMatch = DEFAULT_APPS.find((d) => d.name === app.name);
       if (defaultMatch && defaultMatch.url !== app.url) {

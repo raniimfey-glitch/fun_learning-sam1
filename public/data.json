@@ -11,16 +11,6 @@
       "paidPass": ""
     },
     {
-      "name": "النَّجمة الصَّغيرة تتعلَّم الحروف",
-      "desc": "12 حرفًا عربيًا بأشكالها الموضعيَّة مع نطق صوتي وتمييز صوتي للأطفال.",
-      "url": "https://literate-goggles-rho.vercel.app/",
-      "cat": "اللغة العربية",
-      "age": "4–6 سنوات",
-      "icon": "⭐",
-      "paid": false,
-      "paidPass": ""
-    },
-    {
       "name": "تعلُّم العدِّ واحداً واحداً وعشرة عشرة",
       "desc": "تطبيق تفاعلي لتعلم العد بطريقتين: واحداً واحداً وعشرة عشرة مع تمارين ممتعة.",
       "url": "https://fun-learning-child-counting-stages.vercel.app/",
@@ -247,6 +237,46 @@
       "cat": "الرياضيات",
       "age": "الصف 4–5",
       "icon": "➗",
+      "paid": false,
+      "paidPass": ""
+    },
+    {
+      "name": "تطبيق الساعة التفاعلي",
+      "desc": "تطبيق تعليمي وتفاعلي ممتع لتعليم قراءة وكتابة الساعة بعقاربها والأرقام لطلاب السنة الثانية والثالثة ابتدائي.",
+      "url": "https://fun-learning-my-interactive-watch.vercel.app/",
+      "cat": "الرياضيات",
+      "age": "الصف 2–3",
+      "icon": "⏰",
+      "paid": false,
+      "paidPass": ""
+    },
+    {
+      "name": "مستكشف الأعداد (100,000 إلى 999,999)",
+      "desc": "تطبيق تفاعلي لاستكشاف وفهم الأعداد الكبيرة والمنازل وجدول المراتب لطلاب السنة الخامسة ابتدائي.",
+      "url": "https://fun-learning-interactive-numbers-ap.vercel.app/",
+      "cat": "الرياضيات",
+      "age": "الصف 5",
+      "icon": "🔢",
+      "paid": false,
+      "paidPass": ""
+    },
+    {
+      "name": "لعبة الذاكرة والتركيز — Master Memory",
+      "desc": "لعبة تفاعلية لتطوير الذاكرة وقوة الملاحظة والتركيز للأطفال مع مستويات وتحديات متنوعة.",
+      "url": "https://github.com/raniimfey-glitch/Master-memory-game2",
+      "cat": "الألعاب",
+      "age": "جميع الأعمار",
+      "icon": "🧠",
+      "paid": false,
+      "paidPass": ""
+    },
+    {
+      "name": "لعبة التطابق الصرفية — تصريف الفعل فَهِمَ",
+      "desc": "لعبة وتطبيق تفاعلي في الصرف والتحويل لتعلم وتثبيت تصريف الأفعال مع مختلف الضمائر.",
+      "url": "https://fun-learning-arabic-sarf-morphology.vercel.app/",
+      "cat": "اللغة العربية",
+      "age": "الصف 3–5",
+      "icon": "📖",
       "paid": false,
       "paidPass": ""
     }

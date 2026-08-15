@@ -40,8 +40,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           >
             <X className="w-4 h-4" />
           </button>
-          <div className="w-12 h-12 mx-auto rounded-full bg-white/20 flex items-center justify-center text-2xl mb-2">
-            ✦
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center mb-2">
+            <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+            </svg>
           </div>
           <h3 className="font-bold text-lg font-tajawal">رنيم فاي | حساب المتعلم</h3>
         </div>

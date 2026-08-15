@@ -74,11 +74,13 @@ export const Header: React.FC<HeaderProps> = ({
           className="flex items-center gap-2.5 cursor-pointer select-none group transition-transform active:scale-95"
           title="رنيم فاي | التَّعلُّم المُمْتِع (اضغط 5 مرَّات للوحة التَّحكُّم)"
         >
-          <div className="w-10 h-10 bg-white/20 border border-white/30 rounded-xl flex items-center justify-center text-white text-xl shadow-inner group-hover:bg-white/30 transition-colors backdrop-blur-sm">
-            ✦
+          <div className="w-11 h-11 bg-white/20 border border-white/30 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors backdrop-blur-sm">
+            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+            </svg>
           </div>
           <div className="flex flex-col text-right">
-            <span className="text-white font-bold text-base md:text-lg leading-tight drop-shadow-sm font-tajawal">
+            <span className="text-white font-bold text-base md:text-lg leading-tight font-tajawal">
               رنيم فاي
             </span>
             <span className="text-white/80 text-xs font-medium">التَّعلُّم المُمْتِع</span>

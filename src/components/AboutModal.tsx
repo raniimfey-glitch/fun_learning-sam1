@@ -24,8 +24,10 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           </button>
 
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl shadow-inner backdrop-blur-sm shrink-0">
-              ✦
+            <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-sm shrink-0">
+              <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+              </svg>
             </div>
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold mb-1 backdrop-blur-sm">
