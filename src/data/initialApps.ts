@@ -164,9 +164,9 @@ export const DEFAULT_APPS: AppItem[] = [
   {
     name: "اختبار الحساب السريع",
     desc: "اختبار رياضيات تفاعلي تشويقي يشمل العمليات الأساسية مع تقييم فوري ونقاط إنجاز.",
-    url: "https://warm-dieffenbachia-2751c9.netlify.app/",
+    url: "https://fun-learning-math-quiz.netlify.app/",
     cat: "الرياضيات",
-    age: "7–12 سنوات",
+    age: "الصف 4–5",
     icon: "🔢",
     paid: false,
     paidPass: ""
@@ -174,7 +174,7 @@ export const DEFAULT_APPS: AppItem[] = [
   {
     name: "مغامرة الحيوانات",
     desc: "ثلاث مراحل: الحيوانات الأليفة والمتوحشة، طريقة الحركة، والغذاء — بواجهة قوس قزح وأسئلة مشوِّقة.",
-    url: "https://ideal-pancake-4wb4.vercel.app/",
+    url: "https://fun-learning-animal-adventure.vercel.app/",
     cat: "العلوم والتكنولوجيا",
     age: "6–8 سنوات",
     icon: "🦁",
@@ -238,6 +238,16 @@ export const DEFAULT_APPS: AppItem[] = [
     cat: "الرياضيات",
     age: "الصف 4–5",
     icon: "➗",
+    paid: false,
+    paidPass: ""
+  },
+  {
+    name: "الكسور التفاعلي",
+    desc: "تطبيق تفاعلي لتعلم وممارسة مفاهيم الكسور والأشكال والعمليات الرياضية بطريقة ممتعة.",
+    url: "https://fractions-interactive-app.vercel.app/",
+    cat: "الرياضيات",
+    age: "الصف 3–5",
+    icon: "🍕",
     paid: false,
     paidPass: ""
   },

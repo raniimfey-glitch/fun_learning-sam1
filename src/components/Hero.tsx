@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
           {/* Platform Description Container for High Contrast */}
           <div className="bg-white/60 dark:bg-slate-900/90 border border-emerald-500/20 dark:border-emerald-500/40 p-4 sm:p-5 rounded-2xl max-w-2xl mx-auto shadow-sm">
             <p className="text-sm sm:text-base md:text-lg text-slate-900 dark:text-amber-50 leading-relaxed font-extrabold">
-              منصَّة تعليميَّة رقميَّة مستقلَّة، تقدِّم تطبيقات تعليميَّة تفاعليَّة باللُّغة العربيَّة للأطفال في سنِّ التَّمدرس، وتغطِّي كلَّ الأطوار في المرحلة الابتدائيَّة، وفق مناهج وزارة التَّربية الوطنيَّة.
+              بوابة تعليمية رقمية مستقلة متكاملة ، تقدم تطبيقات تعليمية تفاعلية باللغة العربية موجهة لمتعلمي رياض الاطفال وكل مستويات المرحلة الإبتدائية ،وفق مناهج وزارة التربية الوطنية الجزايرية
             </p>
           </div>
 
