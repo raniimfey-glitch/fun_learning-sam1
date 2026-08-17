@@ -1,6 +1,8 @@
 import React from "react";
 import { Search } from "lucide-react";
 import { BUILTIN_CATEGORIES, normalizeCategory } from "../data/initialApps";
+import { Language } from "../types";
+import { translations, getCategoryLabel } from "../utils/i18n";
 
 interface FilterBarProps {
   searchQuery: string;
@@ -10,6 +12,7 @@ interface FilterBarProps {
   paidFilter?: "all" | "free" | "paid";
   onPaidFilterChange?: (filter: "all" | "free" | "paid") => void;
   customCategories: string[];
+  lang: Language;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -18,7 +21,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   selectedCategory,
   onCategorySelect,
   customCategories,
+  lang,
 }) => {
+  const t = translations[lang];
+
   // Deduplicate and normalize categories to avoid duplicate entries
   const rawCategories = ["all", ...BUILTIN_CATEGORIES, ...customCategories];
   const seen = new Set<string>();
@@ -39,13 +45,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div className="max-w-5xl mx-auto space-y-4">
         {/* Search Input */}
         <div className="relative max-w-lg mx-auto">
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-600 dark:text-emerald-400 pointer-events-none" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-600 dark:text-emerald-400 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="ابحث عن تطبيقٍ تعليميٍّ أو مادةٍ دراسيةٍ..."
-            className="w-full pr-12 pl-5 py-3 text-base md:text-lg font-medium bg-white dark:bg-slate-800 border-2 border-emerald-500/30 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-[#1aab8a] focus:ring-4 focus:ring-[#1aab8a]/20 text-slate-800 dark:text-slate-100 placeholder-slate-400 text-right transition-all shadow-sm"
+            placeholder={t.searchPlaceholder}
+            className="w-full ps-12 pe-5 py-3 text-base md:text-lg font-medium bg-white dark:bg-slate-800 border-2 border-emerald-500/30 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-[#1aab8a] focus:ring-4 focus:ring-[#1aab8a]/20 text-slate-800 dark:text-slate-100 placeholder-slate-400 text-start transition-all shadow-sm"
           />
         </div>
 
@@ -53,7 +59,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <div className="flex items-center gap-2.5 md:gap-3 overflow-x-auto no-scrollbar py-2 px-1 scroll-smooth max-w-full">
           {allCategories.map((cat) => {
             const isActive = normalizeCategory(selectedCategory) === normalizeCategory(cat);
-            const label = cat === "all" ? "الكلّ" : cat;
+            const label = getCategoryLabel(cat, lang);
 
             // Optional helper emoji for categories
             let emoji = "📚";
@@ -89,4 +95,5 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     </div>
   );
 };
+
 

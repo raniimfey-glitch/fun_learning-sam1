@@ -14,7 +14,7 @@ import { AiTutorModal } from "./components/AiTutorModal";
 import { AboutModal } from "./components/AboutModal";
 import { Toast } from "./components/Toast";
 
-import { AppItem, ReviewItem, UserProfile, ViewportMode } from "./types";
+import { AppItem, ReviewItem, UserProfile, ViewportMode, Language } from "./types";
 import {
   getStoredApps,
   saveStoredApps,
@@ -34,8 +34,25 @@ import {
   saveStoredVisited,
 } from "./utils/storage";
 import { BADGES_LIST, normalizeCategory } from "./data/initialApps";
+import {
+  translations,
+  getCategoryLabel,
+  getStoredLanguage,
+  saveStoredLanguage,
+  applyDocumentLanguage,
+} from "./utils/i18n";
 
 export default function App() {
+  // Multilingual State (ar, en, fr)
+  const [lang, setLang] = useState<Language>(getStoredLanguage);
+
+  useEffect(() => {
+    saveStoredLanguage(lang);
+    applyDocumentLanguage(lang);
+  }, [lang]);
+
+  const t = translations[lang];
+
   // Viewport Mode State (Responsive Viewport Selector)
   const [viewportMode, setViewportMode] = useState<ViewportMode>("full");
 
@@ -106,7 +123,7 @@ export default function App() {
   const handleToggleDark = () => {
     setIsDark((prev) => {
       const next = !prev;
-      showToast(next ? "🌙 تمَّ تفعيل الوضع اللّيليّ" : "☀️ تمَّ تفعيل الوضع النّهاريّ");
+      showToast(next ? t.toastNightMode : t.toastDayMode);
       return next;
     });
   };
@@ -117,7 +134,7 @@ export default function App() {
     if (!updated[index]) delete updated[index];
     setFavs(updated);
     saveStoredFavs(updated);
-    showToast(updated[index] ? "⭐ تمَّت الإضافة للمفَضَّلة" : "تمَّت الإزالة من المفَضَّلة");
+    showToast(updated[index] ? t.toastFavAdded : t.toastFavRemoved);
   };
 
   const handleOpenPreview = (index: number) => {
@@ -143,7 +160,7 @@ export default function App() {
 
     // If user has not opened/previewed the app yet, block auto-completing and prompt them to open preview first!
     if (!isVisited && !isCurrentlyDone) {
-      showToast("⚠️ يُرجَى معاينة وتجربة التَّطبيق أوَّلاً قبل وضع علامة الإنجاز! 📱");
+      showToast(t.toastMustPreviewFirst);
       // Auto open preview so they can try it and complete it
       const updatedVisited = { ...visited, [index]: true };
       setVisited(updatedVisited);
@@ -195,7 +212,7 @@ export default function App() {
     setUser(updatedProfile);
     saveUserProfile(updatedProfile);
 
-    showToast(!isCurrentlyDone ? "🎉 أحسنتَ! كسبتَ +10 نقاط إنجاز" : "تمَّ إلغاء علامة الإنجاز");
+    showToast(!isCurrentlyDone ? t.toastDoneSuccess : t.toastDoneRemoved);
   };
 
   const handleUnlockApp = (passcode: string): boolean => {
@@ -209,7 +226,7 @@ export default function App() {
 
       setPreviewApp(targetApp);
       setUnlockAppIndex(null);
-      showToast("🔓 تمَّ فتح التَّطبيق المدفوع بنجاح!");
+      showToast(t.unlockSuccess);
       return true;
     }
     return false;
@@ -361,6 +378,8 @@ export default function App() {
           onGoHome={handleGoHome}
           viewportMode={viewportMode}
           onViewportChange={setViewportMode}
+          lang={lang}
+          onLanguageChange={setLang}
         />
 
         {/* Main Container */}
@@ -369,7 +388,7 @@ export default function App() {
           /* ==================== VIEW 1: الواجهة الرئيسية ==================== */
           <div className="animate-fade-in space-y-4">
             {/* Hero Section */}
-            <Hero />
+            <Hero lang={lang} />
 
             {/* Sticky Filter Bar */}
             <div className="sticky top-[56px] sm:top-[60px] z-30 bg-[#f2f8f6]/95 dark:bg-[#12141f]/95 backdrop-blur-md border-y border-[#d0e8e0] dark:border-slate-800 transition-colors shadow-xs">
@@ -382,6 +401,7 @@ export default function App() {
                 selectedCategory={selectedCategory}
                 onCategorySelect={(cat) => handleSelectCategoryAndNavigate(cat)}
                 customCategories={customCats}
+                lang={lang}
               />
             </div>
           </div>
@@ -394,26 +414,26 @@ export default function App() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={handleGoHome}
-                    title="الرُّجوعُ لِلصَّفْحَةِ الرَّئِيسِيَّةِ"
-                    aria-label="الرُّجوعُ لِلصَّفْحَةِ الرَّئِيسِيَّةِ"
+                    title={t.returnToHome}
+                    aria-label={t.returnToHome}
                     className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/20 hover:bg-white/30 border border-white/30 text-white backdrop-blur-sm transition-all active:scale-95 shadow-sm cursor-pointer shrink-0"
                   >
-                    <ArrowRight className="w-5 h-5" />
+                    {lang === "ar" ? <ArrowRight className="w-5 h-5" /> : <ArrowLeft className="w-5 h-5" />}
                   </button>
 
                   <div className="flex flex-col">
-                    <span className="text-xs text-white/80 font-medium">قَسْمُ التَّطْبِيقَاتِ</span>
+                    <span className="text-xs text-white/80 font-medium">{t.appsSection}</span>
                     <h1 className="text-base md:text-lg font-extrabold font-tajawal">
                       {selectedCategory === "all"
-                        ? "جَمِيعُ التَّطْبِيقَاتِ التَّعْلِيمِيَّةِ"
-                        : `تَطْبِيقَاتُ مَادَّةِ: ${selectedCategory}`}
+                        ? t.allEducationalApps
+                        : `${t.appsForSubject} ${getCategoryLabel(selectedCategory, lang)}`}
                     </h1>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-auto">
                   <span className="bg-white/20 border border-white/30 px-3 py-1 rounded-full text-xs font-bold text-white shadow-inner backdrop-blur-sm">
-                    {filteredApps.length} {filteredApps.length === 1 ? "تطبيق" : "تطبيقات"}
+                    {filteredApps.length} {filteredApps.length === 1 ? t.appSingular : t.appsCount}
                   </span>
                 </div>
               </div>
@@ -448,6 +468,7 @@ export default function App() {
                   const realIdx = apps.findIndex((a) => a.name === filteredApps[idx].name);
                   setRatingAppIndex(realIdx >= 0 ? realIdx : idx);
                 }}
+                lang={lang}
               />
             </div>
           </div>
@@ -457,10 +478,10 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-4 text-center text-xs font-tajawal space-y-1">
         <div className="font-extrabold text-black dark:text-amber-300 text-xs sm:text-sm">
-          التّعلّم الممتع   سميرة عبد الصّدوق
+          {t.footerAuthor}
         </div>
-        <div className="text-[11px] sm:text-xs text-slate-900 dark:text-emerald-300 font-bold dir-rtl">
-          جميع الحقوق محفوظة 2026(c)
+        <div className="text-[11px] sm:text-xs text-slate-900 dark:text-emerald-300 font-bold">
+          {t.footerRights}
         </div>
       </footer>
       </div>
@@ -480,6 +501,7 @@ export default function App() {
               }
             }}
             onClose={() => setPreviewApp(null)}
+            lang={lang}
           />
         );
       })()}
@@ -488,6 +510,7 @@ export default function App() {
         app={unlockAppIndex !== null ? apps[unlockAppIndex] : null}
         onUnlock={handleUnlockApp}
         onClose={() => setUnlockAppIndex(null)}
+        lang={lang}
       />
 
       <AuthModal
@@ -498,8 +521,9 @@ export default function App() {
           const updated = { ...user, name, email };
           setUser(updated);
           saveUserProfile(updated);
-          showToast(`أهلاً بك يا ${name}! 👋`);
+          showToast(`${t.authWelcomeUser} ${name}! 👋`);
         }}
+        lang={lang}
       />
 
       <JourneyModal
@@ -507,6 +531,7 @@ export default function App() {
         onClose={() => setIsJourneyOpen(false)}
         user={user}
         apps={apps}
+        lang={lang}
       />
 
       <RatingModal
@@ -515,6 +540,7 @@ export default function App() {
         reviews={ratingAppIndex !== null ? reviews[ratingAppIndex] || [] : []}
         onAddReview={handleAddReview}
         onClose={() => setRatingAppIndex(null)}
+        lang={lang}
       />
 
       <AdminModal
@@ -534,11 +560,13 @@ export default function App() {
         isOpen={isAiTutorOpen}
         onClose={() => setIsAiTutorOpen(false)}
         apps={apps}
+        lang={lang}
       />
 
       <AboutModal
         isOpen={isAboutOpen}
         onClose={() => setIsAboutOpen(false)}
+        lang={lang}
       />
 
       <Toast message={toastMsg} />

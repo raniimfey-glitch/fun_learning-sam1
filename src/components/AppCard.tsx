@@ -1,7 +1,8 @@
 import React from "react";
-import { Star, CheckCircle, Lock, ArrowLeft } from "lucide-react";
-import { AppItem, ReviewItem } from "../types";
+import { Star, CheckCircle, Lock, ArrowLeft, ArrowRight } from "lucide-react";
+import { AppItem, ReviewItem, Language } from "../types";
 import { normalizeCategory } from "../data/initialApps";
+import { translations, getCategoryLabel, getAppName, getAppDesc, getAppAge } from "../utils/i18n";
 
 interface AppCardProps {
   app: AppItem;
@@ -16,6 +17,7 @@ interface AppCardProps {
   onOpenPreview: (index: number) => void;
   onOpenUnlock: (index: number) => void;
   onOpenRating: (index: number) => void;
+  lang: Language;
 }
 
 export const AppCard: React.FC<AppCardProps> = ({
@@ -31,7 +33,9 @@ export const AppCard: React.FC<AppCardProps> = ({
   onOpenPreview,
   onOpenUnlock,
   onOpenRating,
+  lang,
 }) => {
+  const t = translations[lang];
   const isPaid = !!(app.paid && app.paidPass && app.paidPass.trim() !== "");
   const isPlaceholder = !app.url || app.url === "رابط_هنا" || app.url === "#";
 
@@ -68,20 +72,20 @@ export const AppCard: React.FC<AppCardProps> = ({
             <div>
               <div className="flex items-center gap-1.5 flex-wrap mb-1">
                 <span className="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
-                  {normalizeCategory(app.cat)}
+                  {getCategoryLabel(app.cat, lang)}
                 </span>
                 {isPaid ? (
                   <span className="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700">
-                    💎 مدفوع
+                    💎 {t.paid}
                   </span>
                 ) : (
                   <span className="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-teal-100 dark:bg-teal-950 text-teal-900 dark:text-teal-200 border border-teal-300 dark:border-teal-700">
-                    ✨ مجاني
+                    ✨ {t.free}
                   </span>
                 )}
               </div>
               <h3 className="font-extrabold text-slate-900 dark:text-amber-300 text-base sm:text-lg leading-snug font-tajawal">
-                {app.name}
+                {getAppName(app, lang)}
               </h3>
             </div>
           </div>
@@ -95,7 +99,7 @@ export const AppCard: React.FC<AppCardProps> = ({
             className={`p-1.5 rounded-full transition-colors shrink-0 ${
               isFav ? "text-amber-500 bg-amber-50 dark:bg-amber-950/60" : "text-slate-400 dark:text-slate-400 hover:text-amber-400"
             }`}
-            title={isFav ? "إزالة من المفَضَّلة" : "أضِف للمفَضَّلة"}
+            title={isFav ? t.toastFavRemoved : t.toastFavAdded}
           >
             <Star className="w-5 h-5 fill-current" />
           </button>
@@ -122,22 +126,22 @@ export const AppCard: React.FC<AppCardProps> = ({
               onOpenRating(index);
             }}
             className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-600 text-amber-900 dark:text-amber-200 hover:bg-amber-100 text-xs font-extrabold transition-all active:scale-95 shadow-xs"
-            title="تقييم التَّطبيق بالنُّجوم وإرسال تعليق"
+            title={t.ratingTitle}
           >
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-            <span>تقييم</span>
+            <span>{t.rate}</span>
           </button>
         </div>
 
         {/* App Description - High Contrast Bright Text in Dark Mode */}
         <p className="text-sm sm:text-base text-slate-800 dark:text-emerald-50 font-bold leading-relaxed mb-3">
-          {app.desc}
+          {getAppDesc(app, lang)}
         </p>
       </div>
 
       {/* Card Footer */}
       <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 text-xs">
-        <span className="text-slate-700 dark:text-emerald-300 font-extrabold text-xs">{app.age}</span>
+        <span className="text-slate-700 dark:text-emerald-300 font-extrabold text-xs">{getAppAge(app, lang)}</span>
 
         <div className="flex items-center gap-2">
           {/* Mark Done Button */}
@@ -156,21 +160,21 @@ export const AppCard: React.FC<AppCardProps> = ({
               }`}
               title={
                 isDone
-                  ? "تمَّ إكمال التَّطبيق"
+                  ? t.completed
                   : isVisited
-                  ? "اضغط لإكمال التَّطبيق"
-                  : "يجب معاينة وتجربة التَّطبيق أوَّلاً لإكْمالِهِ"
+                  ? t.markDone
+                  : t.toastMustPreviewFirst
               }
             >
               <CheckCircle className="w-3.5 h-3.5" />
-              <span>{isDone ? "مكتمل" : "أكملت"}</span>
+              <span>{isDone ? t.completed : t.markDone}</span>
             </button>
           )}
 
           {/* Status / Action Button */}
           {isPlaceholder ? (
             <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 text-xs font-bold">
-              ⏳ قريباً
+              ⏳ {t.comingSoon}
             </span>
           ) : (
             <button
@@ -180,8 +184,8 @@ export const AppCard: React.FC<AppCardProps> = ({
               }}
               className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#1aab8a] to-[#0d8060] text-white text-xs font-bold flex items-center gap-1 shadow-2xs hover:brightness-110 active:scale-95 transition-all"
             >
-              <span>معاينة</span>
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>{t.preview}</span>
+              {lang === "ar" ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
@@ -189,3 +193,4 @@ export const AppCard: React.FC<AppCardProps> = ({
     </div>
   );
 };
+

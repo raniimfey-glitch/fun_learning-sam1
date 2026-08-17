@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { X, UserPlus, LogIn, User } from "lucide-react";
-import { UserProfile } from "../types";
+import { X, UserPlus, LogIn } from "lucide-react";
+import { UserProfile, Language } from "../types";
+import { translations } from "../utils/i18n";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSaveProfile: (name: string, email: string) => void;
   currentProfile: UserProfile;
+  lang: Language;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
@@ -14,7 +16,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   onSaveProfile,
   currentProfile,
+  lang,
 }) => {
+  const t = translations[lang];
   const [tab, setTab] = useState<"login" | "signup">("login");
   const [name, setName] = useState(currentProfile.name || "");
   const [email, setEmail] = useState(currentProfile.email || "");
@@ -30,13 +34,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in font-tajawal">
       <div className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#1aab8a] via-[#12977c] to-[#0d8060] p-6 text-center text-white relative">
           <button
             onClick={onClose}
-            className="absolute top-3 left-3 p-1 rounded-full bg-white/20 hover:bg-white/30 text-white"
+            className="absolute top-3 start-3 p-1 rounded-full bg-white/20 hover:bg-white/30 text-white"
           >
             <X className="w-4 h-4" />
           </button>
@@ -45,7 +49,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
             </svg>
           </div>
-          <h3 className="font-bold text-lg font-tajawal">رنيم فاي | حساب المتعلم</h3>
+          <h3 className="font-bold text-lg font-tajawal">{t.authTitle}</h3>
         </div>
 
         {/* Tabs */}
@@ -58,7 +62,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 : "text-slate-400 hover:text-slate-600"
             }`}
           >
-            تسجيل دخول
+            {t.authLoginTab}
           </button>
           <button
             onClick={() => setTab("signup")}
@@ -68,7 +72,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 : "text-slate-400 hover:text-slate-600"
             }`}
           >
-            حساب جديد
+            {t.authSignupTab}
           </button>
         </div>
 
@@ -77,13 +81,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {tab === "signup" && (
             <div>
               <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                الاسم كامل
+                {t.authFullName}
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="اسم الطالب أو ولي الأمر..."
+                placeholder={t.authFullNamePlaceholder}
                 className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#1aab8a]"
                 required
               />
@@ -92,7 +96,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-              البريد الإلكتروني
+              {t.authEmail}
             </label>
             <input
               type="email"
@@ -106,7 +110,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-              كلمة السِّرِّ
+              {t.authPassword}
             </label>
             <input
               type="password"
@@ -123,10 +127,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#1aab8a] to-[#0d8060] text-white font-bold text-xs flex items-center justify-center gap-1.5 hover:brightness-110 shadow-md shadow-emerald-500/20 pt-3"
           >
             {tab === "login" ? <LogIn className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
-            <span>{tab === "login" ? "دخول" : "إنشاء حساب"}</span>
+            <span>{tab === "login" ? t.authLoginTab : t.authSignupTab}</span>
           </button>
         </form>
       </div>
     </div>
   );
 };
+

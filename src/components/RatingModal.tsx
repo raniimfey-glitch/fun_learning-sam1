@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, Star, Send } from "lucide-react";
-import { AppItem, ReviewItem } from "../types";
+import { AppItem, ReviewItem, Language } from "../types";
+import { translations } from "../utils/i18n";
 
 interface RatingModalProps {
   app: AppItem | null;
@@ -8,6 +9,7 @@ interface RatingModalProps {
   reviews: ReviewItem[];
   onAddReview: (appIndex: number, stars: number, comment: string) => void;
   onClose: () => void;
+  lang: Language;
 }
 
 export const RatingModal: React.FC<RatingModalProps> = ({
@@ -16,7 +18,9 @@ export const RatingModal: React.FC<RatingModalProps> = ({
   reviews,
   onAddReview,
   onClose,
+  lang,
 }) => {
+  const t = translations[lang];
   const [stars, setStars] = useState(5);
   const [comment, setComment] = useState("");
 
@@ -29,13 +33,13 @@ export const RatingModal: React.FC<RatingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in font-tajawal">
       <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col max-h-[85vh]">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#1aab8a] to-[#0d8060] p-4 text-white flex items-center justify-between">
           <h3 className="font-bold text-sm md:text-base font-tajawal flex items-center gap-1.5">
             <Star className="w-4 h-4 text-amber-300 fill-current" />
-            <span>تقييم التَّطبيق — {app.name}</span>
+            <span>{t.ratingTitle} — {app.name}</span>
           </h3>
           <button
             onClick={onClose}
@@ -51,7 +55,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
           <form onSubmit={handleSubmit} className="space-y-3 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
             <div className="text-center">
               <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">
-                اختر عدد النُّجوم
+                {t.ratingChooseStars}
               </span>
               <div className="flex justify-center gap-1 text-amber-400 text-2xl">
                 {[1, 2, 3, 4, 5].map((s) => (
@@ -71,7 +75,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="اكتب تعليقك وانطباعك عن التَّطبيق (اختياري)..."
+                placeholder={t.ratingCommentPlaceholder}
                 rows={2}
                 className="w-full p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#1aab8a] resize-none"
               />
@@ -82,19 +86,19 @@ export const RatingModal: React.FC<RatingModalProps> = ({
               className="w-full py-2 rounded-xl bg-gradient-to-r from-[#1aab8a] to-[#0d8060] text-white font-bold text-xs flex items-center justify-center gap-1.5 hover:brightness-110 shadow-sm"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>إرسال التَّقييم</span>
+              <span>{t.ratingSubmit}</span>
             </button>
           </form>
 
           {/* Reviews list */}
           <div>
             <h4 className="font-bold text-xs text-slate-700 dark:text-slate-300 mb-2 font-tajawal">
-              التَّقييمات والآراء ({reviews.length})
+              {t.ratingReviewsHeading} ({reviews.length})
             </h4>
 
             {reviews.length === 0 ? (
               <p className="text-xs text-slate-400 text-center py-4">
-                لا توجد تقييماتٌ بعدُ — كن أوَّل من يُقيِّم هذا التَّطبيق! 🌟
+                {t.ratingNoReviews}
               </p>
             ) : (
               <div className="space-y-2">
@@ -127,3 +131,4 @@ export const RatingModal: React.FC<RatingModalProps> = ({
     </div>
   );
 };
+

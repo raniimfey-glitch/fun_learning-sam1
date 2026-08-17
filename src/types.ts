@@ -1,10 +1,16 @@
 export interface AppItem {
   id?: string;
   name: string;
+  nameEn?: string;
+  nameFr?: string;
   desc: string;
+  descEn?: string;
+  descFr?: string;
   url: string;
   cat: string;
   age: string;
+  ageEn?: string;
+  ageFr?: string;
   icon: string;
   paid?: boolean;
   paidPass?: string;
@@ -44,3 +50,5 @@ export interface CategoryColor {
 }
 
 export type ViewportMode = "full" | "tablet" | "mobile";
+
+export type Language = "ar" | "en" | "fr";

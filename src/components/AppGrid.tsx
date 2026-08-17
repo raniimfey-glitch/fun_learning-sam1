@@ -1,7 +1,8 @@
 import React from "react";
-import { AppItem, ReviewItem } from "../types";
+import { AppItem, ReviewItem, Language } from "../types";
 import { AppCard } from "./AppCard";
 import { Search } from "lucide-react";
+import { translations } from "../utils/i18n";
 
 interface AppGridProps {
   apps: AppItem[];
@@ -15,6 +16,7 @@ interface AppGridProps {
   onOpenPreview: (index: number) => void;
   onOpenUnlock: (index: number) => void;
   onOpenRating: (index: number) => void;
+  lang: Language;
 }
 
 export const AppGrid: React.FC<AppGridProps> = ({
@@ -29,7 +31,10 @@ export const AppGrid: React.FC<AppGridProps> = ({
   onOpenPreview,
   onOpenUnlock,
   onOpenRating,
+  lang,
 }) => {
+  const t = translations[lang];
+
   if (apps.length === 0) {
     return (
       <div className="py-16 text-center space-y-3">
@@ -37,7 +42,7 @@ export const AppGrid: React.FC<AppGridProps> = ({
           <Search className="w-8 h-8" />
         </div>
         <p className="text-slate-600 dark:text-slate-300 font-medium">
-          لم نجد أي تطبيقات مطابقة لخيارات البحث الحالية
+          {t.noAppsFound}
         </p>
       </div>
     );
@@ -60,8 +65,10 @@ export const AppGrid: React.FC<AppGridProps> = ({
           onOpenPreview={onOpenPreview}
           onOpenUnlock={onOpenUnlock}
           onOpenRating={onOpenRating}
+          lang={lang}
         />
       ))}
     </div>
   );
 };
+

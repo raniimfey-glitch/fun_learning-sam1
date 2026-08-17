@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { X, ExternalLink, Loader2, CheckCircle } from "lucide-react";
-import { AppItem } from "../types";
+import { AppItem, Language } from "../types";
+import { translations, getCategoryLabel, getAppName, getAppAge } from "../utils/i18n";
 
 interface PreviewModalProps {
   app: AppItem | null;
   isDone?: boolean;
   onToggleDone?: () => void;
   onClose: () => void;
+  lang: Language;
 }
 
 export const PreviewModal: React.FC<PreviewModalProps> = ({
@@ -14,7 +16,9 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
   isDone,
   onToggleDone,
   onClose,
+  lang,
 }) => {
+  const t = translations[lang];
   const [isLoading, setIsLoading] = useState(true);
 
   if (!app) return null;
@@ -22,7 +26,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
   const isPaid = !!(app.paid && app.paidPass && app.paidPass.trim() !== "");
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-3 md:p-6 animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-3 md:p-6 animate-fade-in font-tajawal">
       <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-slate-200 dark:border-slate-800">
         {/* Header */}
         <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800/50">
@@ -32,10 +36,10 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-slate-800 dark:text-slate-100 text-base font-tajawal">
-                {app.name}
+                {getAppName(app, lang)}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {app.cat} • {app.age} • {isPaid ? <span className="text-amber-600 dark:text-amber-400 font-bold">💎 مدفوع</span> : <span className="text-emerald-600 dark:text-emerald-400 font-bold">✨ مجاني</span>}
+                {getCategoryLabel(app.cat, lang)} • {getAppAge(app, lang)} • {isPaid ? <span className="text-amber-600 dark:text-amber-400 font-bold">💎 {t.paid}</span> : <span className="text-emerald-600 dark:text-emerald-400 font-bold">✨ {t.free}</span>}
               </p>
             </div>
           </div>
@@ -53,12 +57,12 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
           {isLoading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-slate-400">
               <Loader2 className="w-8 h-8 animate-spin text-[#1aab8a]" />
-              <span className="text-xs font-medium">جَارٍ تحميل التَّطبيق التَّفاعليِّ...</span>
+              <span className="text-xs font-medium">{t.loading}</span>
             </div>
           )}
           <iframe
             src={app.url}
-            title={app.name}
+            title={getAppName(app, lang)}
             onLoad={() => setIsLoading(false)}
             className="w-full h-full min-h-[420px] border-0"
             sandbox="allow-scripts allow-same-origin allow-forms"
@@ -78,7 +82,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
                 }`}
               >
                 <CheckCircle className="w-4 h-4" />
-                <span>{isDone ? "تمَّ إكمال التَّطبيق 🎉" : "أكملتُ التَّطبيق (+10 نقاط) 🏆"}</span>
+                <span>{isDone ? `${t.completed} 🎉` : `${t.markDone} (+10 pts) 🏆`}</span>
               </button>
             )}
             <span className="text-slate-400 hidden sm:inline">•</span>
@@ -90,7 +94,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
               onClick={onClose}
               className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              إغلاق
+              {t.close}
             </button>
             <a
               href={app.url}
@@ -98,7 +102,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
               rel="noopener noreferrer"
               className="px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#1aab8a] to-[#0d8060] text-white font-bold flex items-center gap-1.5 hover:brightness-110 shadow-sm"
             >
-              <span>فتح النافذة كاملاً</span>
+              <span>{t.openFullscreen}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -107,3 +111,4 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
     </div>
   );
 };
+

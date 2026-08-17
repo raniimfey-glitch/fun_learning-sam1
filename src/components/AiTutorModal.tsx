@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { X, Bot, Send, Sparkles, Loader2 } from "lucide-react";
-import { AppItem } from "../types";
+import { AppItem, Language } from "../types";
+import { translations } from "../utils/i18n";
 
 interface AiTutorModalProps {
   isOpen: boolean;
   onClose: () => void;
   apps: AppItem[];
+  lang: Language;
 }
 
-export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, apps }) => {
+export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, apps, lang }) => {
+  const t = translations[lang];
   const [prompt, setPrompt] = useState("");
   const [chat, setChat] = useState<{ role: "user" | "ai"; text: string }[]>([
     {
       role: "ai",
-      text: "مرحباً بك! 👋 أنا مساعد التَّعلُّم الذَّكيّ في منصَّة رنيم فاي. يمكنني إرشادك وتوجيهك لاختيار أفضل التَّطبيقات التَّعليميَّة المناسبة لطفلك ومساعدتك في المناهج والمفاهيم الدِّراسيَّة. ماذا تحبّ أن تسأل اليوم؟"
+      text:
+        lang === "ar"
+          ? "مرحباً بك! 👋 أنا مساعد التَّعلُّم الذَّكيّ في منصَّة التَّعلُّم المُمْتِع. يمكنني إرشادك وتوجيهك لاختيار أفضل التَّطبيقات التَّعليميَّة المناسبة لطفلك ومساعدتك في المناهج والمفاهيم الدِّراسيَّة. ماذا تحبّ أن تسأل اليوم؟"
+          : lang === "fr"
+          ? "Bienvenue ! 👋 Je suis votre tuteur IA pour la plateforme Apprentissage Amusant. Je peux vous aider à choisir les meilleures applications éducatives pour votre enfant. Que souhaitez-vous savoir ?"
+          : "Welcome! 👋 I am your smart AI tutor for Fun Learning platform. I can help guide you to the best educational apps for your child. What would you like to ask today?"
     }
   ]);
   const [loading, setLoading] = useState(false);
@@ -33,19 +41,33 @@ export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, app
       const res = await fetch("/api/ai-tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: userText, appsContext: apps })
+        body: JSON.stringify({ prompt: userText, appsContext: apps, lang })
       });
       const data = await res.json();
       setChat((prev) => [
         ...prev,
-        { role: "ai", text: data.reply || "شكراً لسؤالك! يمكنك تجربة أحد التطبيقات في قسم الرياضيات أو اللغة العربية." }
+        {
+          role: "ai",
+          text:
+            data.reply ||
+            (lang === "ar"
+              ? "شكراً لسؤالك! يمكنك تجربة أحد التطبيقات في قسم الرياضيات أو اللغة العربية."
+              : lang === "fr"
+              ? "Merci pour votre question ! Vous pouvez essayer les applications de maths ou de langue."
+              : "Thank you for asking! You can explore apps in Math or Language sections.")
+        }
       ]);
     } catch {
       setChat((prev) => [
         ...prev,
         {
           role: "ai",
-          text: "مرحباً! يبدو أنَّ هناك بطءً في الاتِّصال بالسِّيرفر. يمكنك استعراض قائمة التَّطبيقات التَّفاعليَّة مباشرةً عبر شريط التَّصنيفات والبحث بالأعلى!"
+          text:
+            lang === "ar"
+              ? "مرحباً! يمكنك استعراض قائمة التَّطبيقات التَّفاعليَّة مباشرةً عبر شريط التَّصنيفات والبحث بالأعلى!"
+              : lang === "fr"
+              ? "Bonjour ! Vous pouvez parcourir nos applications directement via les catégories et la recherche ci-dessus !"
+              : "Hello! You can directly explore our interactive educational apps via the category pills and search above!"
         }
       ]);
     } finally {
@@ -54,7 +76,7 @@ export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, app
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-md flex items-center justify-center p-3 md:p-6 animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-md flex items-center justify-center p-3 md:p-6 animate-fade-in font-tajawal">
       <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[82vh] border border-slate-200 dark:border-slate-800">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#1aab8a] via-[#12977c] to-[#0d8060] p-4 text-white flex items-center justify-between">
@@ -64,16 +86,17 @@ export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, app
             </div>
             <div>
               <h3 className="font-bold text-sm md:text-base font-tajawal flex items-center gap-1.5">
-                <span>مساعد التَّعلُّم المُمْتِع الذَّكيّ</span>
+                <span>{t.aiTutorTitle}</span>
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               </h3>
-              <p className="text-[10px] text-white/80">إرشاد تعليمي للطلبة وأولياء الأمور</p>
+              <p className="text-[10px] text-white/80">{t.aiTutorSubtitle}</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
             className="p-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white"
+            title={t.close}
           >
             <X className="w-4 h-4" />
           </button>
@@ -106,7 +129,7 @@ export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, app
           {loading && (
             <div className="flex gap-2 justify-start items-center text-slate-400 text-xs py-2">
               <Loader2 className="w-4 h-4 animate-spin text-[#1aab8a]" />
-              <span>جاري التفكير وصياغة الإجابة...</span>
+              <span>{t.aiTutorThinking}</span>
             </div>
           )}
         </div>
@@ -117,7 +140,7 @@ export const AiTutorModal: React.FC<AiTutorModalProps> = ({ isOpen, onClose, app
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="اسأل عن أفضل تطبيق لمادة معينة أو سن طفلك..."
+            placeholder={t.aiTutorPlaceholder}
             className="flex-1 px-3.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#1aab8a]"
           />
           <button
