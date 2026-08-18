@@ -337,7 +337,7 @@ export default function App() {
 
   return (
     <div className={`min-h-screen transition-colors duration-300 flex flex-col font-cairo ${
-      viewportMode !== "full" ? "bg-slate-200/90 dark:bg-slate-950/90 p-0 sm:p-4 items-center" : "bg-[#f2f8f6] dark:bg-[#12141f]"
+      viewportMode !== "full" ? "bg-slate-200/90 dark:bg-slate-950/90 p-0 sm:p-4 items-center" : "bg-gradient-to-b from-[#edf8f5] via-[#f4faf8] to-[#ebf6f2] dark:from-[#12141f] dark:to-[#0c0d15]"
     }`}>
       {/* Active Viewport Mode Top Notification Ribbon */}
       {viewportMode !== "full" && (
@@ -360,9 +360,9 @@ export default function App() {
       {/* Main App Frame / Container */}
       <div className={`w-full flex-1 flex flex-col transition-all duration-300 ${
         viewportMode === "mobile"
-          ? "max-w-[414px] bg-[#f2f8f6] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
+          ? "max-w-[414px] bg-gradient-to-b from-[#edf8f5] via-[#f4faf8] to-[#ebf6f2] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
           : viewportMode === "tablet"
-          ? "max-w-[820px] bg-[#f2f8f6] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
+          ? "max-w-[820px] bg-gradient-to-b from-[#edf8f5] via-[#f4faf8] to-[#ebf6f2] dark:bg-[#12141f] shadow-2xl rounded-3xl border-4 border-slate-700/60 dark:border-slate-700 overflow-hidden min-h-[calc(100vh-60px)]"
           : "min-h-screen text-[#1a2230] dark:text-[#e8eaf2]"
       }`}>
         {/* Top Header */}
@@ -391,7 +391,7 @@ export default function App() {
             <Hero lang={lang} />
 
             {/* Sticky Filter Bar */}
-            <div className="sticky top-[56px] sm:top-[60px] z-30 bg-[#f2f8f6]/95 dark:bg-[#12141f]/95 backdrop-blur-md border-y border-[#d0e8e0] dark:border-slate-800 transition-colors shadow-xs">
+            <div className="sticky top-[56px] sm:top-[60px] z-30 bg-white/85 dark:bg-[#12141f]/95 backdrop-blur-xl border-y border-emerald-500/20 dark:border-slate-800 transition-colors shadow-sm">
               <FilterBar
                 searchQuery={searchQuery}
                 onSearchChange={(query) => {
@@ -409,7 +409,7 @@ export default function App() {
           /* ==================== VIEW 2: واجهة التطبيقات ==================== */
           <div className="animate-fade-in pb-12">
             {/* Top Return Banner & Subject Header */}
-            <div className="bg-gradient-to-r from-emerald-600 via-[#1aab8a] to-teal-700 text-white shadow-md">
+            <div className="bg-gradient-to-r from-emerald-600 via-[#1aab8a] to-teal-700 text-white shadow-lg shadow-emerald-700/20 border-b border-emerald-500/30">
               <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <button
@@ -422,8 +422,8 @@ export default function App() {
                   </button>
 
                   <div className="flex flex-col">
-                    <span className="text-xs text-white/80 font-medium">{t.appsSection}</span>
-                    <h1 className="text-base md:text-lg font-extrabold font-tajawal">
+                    <span className="text-xs text-amber-200 font-bold drop-shadow-xs">{t.appsSection}</span>
+                    <h1 className="text-base md:text-xl font-black font-tajawal drop-shadow-xs">
                       {selectedCategory === "all"
                         ? t.allEducationalApps
                         : `${t.appsForSubject} ${getCategoryLabel(selectedCategory, lang)}`}
@@ -432,7 +432,7 @@ export default function App() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-auto">
-                  <span className="bg-white/20 border border-white/30 px-3 py-1 rounded-full text-xs font-bold text-white shadow-inner backdrop-blur-sm">
+                  <span className="bg-white/25 border border-white/40 px-3.5 py-1 rounded-full text-xs font-black text-white shadow-inner backdrop-blur-md">
                     {filteredApps.length} {filteredApps.length === 1 ? t.appSingular : t.appsCount}
                   </span>
                 </div>

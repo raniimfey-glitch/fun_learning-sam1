@@ -20,10 +20,19 @@ export const getStoredApps = (): AppItem[] => {
     let stored: AppItem[] = JSON.parse(data);
     let updated = false;
 
-    // Remove specific deprecated/deleted apps
-    const removedUrls = new Set(["https://literate-goggles-rho.vercel.app/"]);
+    // Remove specific deprecated/deleted apps or netlify apps
+    const removedUrls = new Set([
+      "https://literate-goggles-rho.vercel.app/",
+      "https://glowing-froyo-595e54.netlify.app/",
+      "https://fun-learning-math-quiz.netlify.app/"
+    ]);
     const beforeCount = stored.length;
-    stored = stored.filter((app) => !removedUrls.has(app.url) && !app.name.includes("النَّجمة الصَّغيرة تتعلَّم الحروف"));
+    stored = stored.filter(
+      (app) =>
+        !removedUrls.has(app.url) &&
+        !app.url.includes("netlify") &&
+        !app.name.includes("النَّجمة الصَّغيرة تتعلَّم الحروف")
+    );
     if (stored.length !== beforeCount) {
       updated = true;
     }

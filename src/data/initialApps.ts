@@ -242,38 +242,6 @@ export const DEFAULT_APPS: AppItem[] = [
     paidPass: ""
   },
   {
-    name: "تمارين نحوية — كان وأخواتها",
-    nameEn: "Grammar Exercises — Kana and its Sisters",
-    nameFr: "Exercices de Grammaire — Kana et ses Sœurs",
-    desc: "تمارين تفاعلية لتعلم كان وأخواتها والإعراب بأسلوب مبسط وممتع للمتعلمين.",
-    descEn: "Interactive exercises for Arabic grammar rules and parsing made accessible and fun.",
-    descFr: "Exercices interactifs pour comprendre les règles grammaticales et l'analyse de phrases.",
-    url: "https://glowing-froyo-595e54.netlify.app/",
-    cat: "اللغة العربية",
-    age: "الصف 4–5",
-    ageEn: "Grades 4–5",
-    ageFr: "Niveau 4–5",
-    icon: "✏️",
-    paid: false,
-    paidPass: ""
-  },
-  {
-    name: "اختبار الحساب السريع",
-    nameEn: "Speed Math Quiz",
-    nameFr: "Quiz de Calcul Rapide",
-    desc: "اختبار رياضيات تفاعلي تشويقي يشمل العمليات الأساسية مع تقييم فوري ونقاط إنجاز.",
-    descEn: "Thrilling interactive math quiz covering essential operations with instant score tracking.",
-    descFr: "Quiz de mathématiques dynamique couvrant les opérations de base avec évaluation immédiate.",
-    url: "https://fun-learning-math-quiz.netlify.app/",
-    cat: "الرياضيات",
-    age: "الصف 4–5",
-    ageEn: "Grades 4–5",
-    ageFr: "Niveau 4–5",
-    icon: "🔢",
-    paid: false,
-    paidPass: ""
-  },
-  {
     name: "مغامرة الحيوانات",
     nameEn: "Animal Adventure",
     nameFr: "L'Aventure des Animaux",

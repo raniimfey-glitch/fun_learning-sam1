@@ -51,7 +51,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full ps-12 pe-5 py-3 text-base md:text-lg font-medium bg-white dark:bg-slate-800 border-2 border-emerald-500/30 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-[#1aab8a] focus:ring-4 focus:ring-[#1aab8a]/20 text-slate-800 dark:text-slate-100 placeholder-slate-400 text-start transition-all shadow-sm"
+            className="w-full ps-12 pe-5 py-3 text-base md:text-lg font-bold bg-white/95 dark:bg-slate-800 border-2 border-emerald-500/30 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/20 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-400 text-start transition-all shadow-md shadow-emerald-500/5"
           />
         </div>
 
@@ -79,13 +79,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <button
                 key={cat}
                 onClick={() => onCategorySelect(cat)}
-                className={`whitespace-nowrap shrink-0 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-2xl text-sm sm:text-base md:text-lg font-bold flex items-center gap-2.5 transition-all duration-200 cursor-pointer shadow-sm active:scale-95 ${
+                className={`whitespace-nowrap shrink-0 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-2xl text-sm sm:text-base md:text-lg font-black flex items-center gap-2.5 transition-all duration-200 cursor-pointer shadow-sm active:scale-95 ${
                   isActive
-                    ? "bg-gradient-to-r from-[#1aab8a] via-teal-600 to-[#0d8060] text-white shadow-md shadow-emerald-600/25 ring-2 ring-[#1aab8a]/40 scale-102"
-                    : "bg-white dark:bg-slate-800/90 border-2 border-emerald-500/20 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 hover:border-[#1aab8a] hover:text-[#1aab8a] dark:hover:text-[#1aab8a] hover:shadow-md"
+                    ? "bg-gradient-to-r from-[#1aab8a] via-teal-600 to-[#0d8060] text-white shadow-lg shadow-emerald-600/35 ring-2 ring-emerald-400/50 scale-102"
+                    : "bg-white/95 dark:bg-slate-800 border-2 border-emerald-500/25 dark:border-slate-700 text-slate-800 dark:text-slate-100 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-300 hover:shadow-md hover:shadow-emerald-500/15 hover:scale-102"
                 }`}
               >
-                <span className="text-lg sm:text-xl md:text-2xl">{emoji}</span>
+                <span className="text-lg sm:text-xl md:text-2xl drop-shadow-xs">{emoji}</span>
                 <span>{label}</span>
               </button>
             );
