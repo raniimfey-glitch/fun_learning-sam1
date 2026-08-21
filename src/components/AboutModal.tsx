@@ -56,7 +56,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, lang })
               <h3>{t.aboutWhoAmI}</h3>
             </div>
             <p className="text-sm sm:text-base leading-relaxed text-slate-800 dark:text-emerald-50 font-bold">
-              {t.aboutWhoAmIDesc} <strong className="text-slate-900 dark:text-amber-300 font-black">{t.aboutWhoAmIAuthor}</strong>, {t.aboutExperience}
+              {t.aboutWhoAmIDesc}
             </p>
           </div>
 
