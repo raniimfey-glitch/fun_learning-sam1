@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Capacitor & Build Android APK
         run: |
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
           npx cap init "FunLearningApp" "com.funlearning.app" --web-dir dist
           npx cap add android
           npx cap sync android
